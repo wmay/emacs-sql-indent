@@ -658,11 +658,11 @@ Currently we move over the following options:
 We don't consider if the options are valid or not for the thing
 being created.  We just skip any and all of them that are
 present."
-  (when (eq sql-product 'mysql)
+  (when (or (eq sql-product 'mysql) (eq sql-product 'postgres))
     (catch 'finished
       (while t
         (cond
-          ((looking-at "temporary\\_>")
+          ((looking-at "\\(temporary\\|materialized\\)\\_>")
            (goto-char (match-end 0))
            (sqlind-forward-syntactic-ws))
           ((looking-at "\\(definer\\|algorithm\\)\\(\\s-\\|[\n]\\)*=\\(\\s-\\|[\n]\\)*\\S-+")
